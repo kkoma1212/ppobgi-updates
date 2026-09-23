@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 요청 7(2026-09-23): 뽑기 시간 관리자 웹. GitHub API만 부른다. 공지·릴리스 내용은 모두 글자(textContent)로만 그린다 -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://api.github.com; img-src data:; base-uri 'none'; form-action 'none'">
+<title>뽑기 시간 관리자</title>
+<style>
+  :root { --board: #24433a; --chalk: #f4f1e8; --paper: #fdf6e3; --ink: #1f2a25; --wood: #7a4e2a; --accent: #e8b34a; --danger: #b3261e; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: var(--board); color: var(--chalk); font-family: "Malgun Gothic", sans-serif; font-size: 17px; line-height: 1.5; }
+  header { display: flex; align-items: center; gap: 16px; padding: 14px 24px; border-bottom: 8px solid var(--wood); }
+  header h1 { margin: 0; font-size: 26px; } header .who { margin-left: auto; opacity: .85; }
+  main { max-width: 980px; margin: 0 auto; padding: 20px 16px 60px; display: grid; gap: 22px; }
+  section { background: var(--paper); color: var(--ink); border-radius: 10px; padding: 18px 20px; box-shadow: 0 4px 0 #0004; }
+  h2 { margin: 0 0 10px; font-size: 22px; } h3 { margin: 14px 0 6px; font-size: 18px; }
+  label { display: grid; gap: 4px; font-weight: 700; margin: 8px 0; }
+  input, textarea { font: inherit; padding: 8px 10px; border: 2px solid #cbbf9f; border-radius: 6px; background: #fff; color: var(--ink); width: 100%; }
+  textarea { min-height: 110px; resize: vertical; }
+  button { font: inherit; font-weight: 700; padding: 8px 16px; border-radius: 8px; border: 2px solid #8a7a55; background: #fff8e6; color: var(--ink); cursor: pointer; }
+  button.primary { background: var(--accent); border-color: #a07718; } button.danger { color: #fff; background: var(--danger); border-color: #7d1a14; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .muted { color: #5b6660; font-size: 15px; } .status { min-height: 1.5em; font-weight: 700; } .status.bad { color: var(--danger); }
+  ul.items { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 10px; }
+  ul.items li { border: 2px solid #e4dcc4; border-radius: 8px; padding: 10px 12px; }
+  ul.items li p { margin: 6px 0; white-space: pre-wrap; }
+  .tag { display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 14px; font-weight: 700; background: #e7eee9; margin-left: 6px; }
+  .tag.draft { background: #fbe39a; } .tag.live { background: #b9e3b0; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header><h1>🎲 뽑기 시간 관리자</h1><span class="who" id="who">로그인 전</span></header>
+<main>
+  <section id="login">
+    <h2>로그인</h2>
+    <p class="muted">GitHub에서 만든 「세분화된 토큰(fine-grained token)」을 넣어 주세요. 이 저장소 하나에 <b>Contents: 읽기/쓰기</b> 권한만 주면 됩니다. 토큰은 이 브라우저에만 저장돼요 — 공용 PC에서는 다 쓴 뒤 로그아웃하세요.</p>
+    <label>GitHub 아이디 <input id="owner" autocomplete="username" placeholder="예: kkoma1212"></label>
+    <label>업데이트 저장소 이름 <input id="repo" value="ppobgi-updates"></label>
+    <label>토큰 <input id="token" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+    <div class="row"><button class="primary" id="signin">로그인</button><span class="status" id="login-status"></span></div>
+  </section>
+  <section id="releases" hidden>
+    <div class="row"><h2>업데이트 배포</h2><button id="refresh">새로 고침</button><button id="signout">로그아웃</button></div>
+    <p class="muted">이 PC에서 튜링이 <code>publish-update</code>로 올린 「초안」이 여기 보여요. 「배포」를 누르면 교실 노트북들이 다음에 켤 때 새 판을 알게 됩니다.</p>
+    <label class="row" style="font-weight:400"><input type="checkbox" id="also-notice" checked style="width:auto"> 배포할 때 바뀐 점을 공지로도 올리기</label>
+    <ul class="items" id="release-list"></ul>
+    <p class="status" id="release-status" role="status"></p>
+  </section>
+  <section id="notices" hidden>
+    <h2>공지사항</h2>
+    <label>제목 <input id="notice-title" maxlength="80"></label>
+    <label>내용 <textarea id="notice-body" maxlength="2000"></textarea></label>
+    <div class="row"><button class="primary" id="notice-save">공지 올리기</button><button id="notice-cancel" hidden>수정 취소</button></div>
+    <p class="status" id="notice-status" role="status"></p>
+    <ul class="items" id="notice-list"></ul>
+  </section>
+</main>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const API = 'https://api.github.com';
+let auth = null, notices = [], noticesSha = null, editing = null;
+function el(tag, text, className) { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (className) e.className = className; return e; }
+function say(id, text, bad = false) { $(id).textContent = text; $(id).classList.toggle('bad', bad); }
+// UTF-8 ↔ base64 (GitHub 파일 내용은 base64)
+const toB64 = text => { const bytes = new TextEncoder().encode(text); let s = ''; bytes.forEach(b => { s += String.fromCharCode(b); }); return btoa(s); };
+const fromB64 = b64 => new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\s/g, '')), c => c.charCodeAt(0)));
+async function gh(path, options = {}) {
+  const response = await fetch(API + path, { ...options, headers: { Accept: 'application/vnd.github+json', Authorization: 'Bearer ' + auth.token, 'X-GitHub-Api-Version': '2022-11-28', ...(options.body ? { 'Content-Type': 'application/json' } : {}) } });
+  if (response.status === 404) return null;
+  if (!response.ok) throw new Error('GitHub ' + response.status + (response.status === 401 ? ' — 토큰을 확인해 주세요' : response.status === 403 ? ' — 권한이 부족해요' : ''));
+  return response.status === 204 ? {} : response.json();
+}
+const repoPath = () => '/repos/' + encodeURIComponent(auth.owner) + '/' + encodeURIComponent(auth.repo);
+async function readFile(name) { const file = await gh(repoPath() + '/contents/' + name); return file ? { text: fromB64(file.content), sha: file.sha } : null; }
+async function writeFile(name, text, sha, message) {
+  return gh(repoPath() + '/contents/' + name, { method: 'PUT', body: JSON.stringify({ message, content: toB64(text), ...(sha ? { sha } : {}) }) });
+}
+/* ---------- 로그인 ---------- */
+async function signIn(saved) {
+  const owner = saved?.owner ?? $('owner').value.trim(), repo = saved?.repo ?? $('repo').value.trim(), token = saved?.token ?? $('token').value.trim();
+  if (!/^[A-Za-z0-9-]{1,39}$/.test(owner) || !/^[A-Za-z0-9._-]{1,100}$/.test(repo) || !token) { say('login-status', '아이디·저장소·토큰을 확인해 주세요.', true); return; }
+  auth = { owner, repo, token }; say('login-status', '확인하는 중…');
+  try {
+    const info = await gh(repoPath());
+    if (!info) throw new Error('저장소를 찾을 수 없어요');
+    if (!info.permissions?.push) throw new Error('이 토큰으로는 저장소에 쓸 수 없어요');
+    try { localStorage.setItem('ppobgi-admin', JSON.stringify(auth)); } catch {}
+    $('who').textContent = owner + '/' + repo; $('login').hidden = true; $('releases').hidden = false; $('notices').hidden = false;
+    await Promise.all([loadReleases(), loadNotices()]);
+  } catch (error) { auth = null; say('login-status', String(error.message ?? error), true); }
+}
+function signOut() { try { localStorage.removeItem('ppobgi-admin'); } catch {} location.reload(); }
+/* ---------- 공지 ---------- */
+async function loadNotices() {
+  const file = await readFile('notices.json');
+  noticesSha = file?.sha ?? null;
+  try { notices = file ? JSON.parse(file.text).notices ?? [] : []; } catch { notices = []; }
+  renderNotices();
+}
+function renderNotices() {
+  const list = $('notice-list'); list.replaceChildren();
+  if (!notices.length) list.append(el('li', '아직 공지가 없어요.', 'muted'));
+  for (const notice of notices) {
+    const item = el('li'), head = el('div', '', 'row');
+    head.append(el('strong', notice.title), el('span', notice.date, 'muted'));
+    const edit = el('button', '수정'), remove = el('button', '삭제', 'danger');
+    edit.onclick = () => { editing = notice.id; $('notice-title').value = notice.title; $('notice-body').value = notice.body; $('notice-save').textContent = '수정 저장'; $('notice-cancel').hidden = false; $('notice-title').focus(); };
+    remove.onclick = () => { if (confirm('이 공지를 지울까요?')) void saveNotices(notices.filter(n => n.id !== notice.id), '공지 삭제'); };
+    head.append(edit, remove); item.append(head, el('p', notice.body)); list.append(item);
+  }
+}
+async function saveNotices(next, message) {
+  say('notice-status', '저장하는 중…');
+  try {
+    const result = await writeFile('notices.json', JSON.stringify({ notices: next }, null, 2) + '\n', noticesSha, message);
+    noticesSha = result.content.sha; notices = next; renderNotices(); say('notice-status', '저장했어요. 노트북은 다음에 켤 때 받아요.'); return true;
+  } catch (error) { say('notice-status', '저장 실패: ' + (error.message ?? error) + ' (다른 곳에서 바뀌었으면 새로 고침 후 다시)', true); return false; }
+}
+function resetEditor() { editing = null; $('notice-title').value = ''; $('notice-body').value = ''; $('notice-save').textContent = '공지 올리기'; $('notice-cancel').hidden = true; }
+async function submitNotice() {
+  const title = $('notice-title').value.trim(), body = $('notice-body').value.trim();
+  if (!title) { say('notice-status', '제목을 적어 주세요.', true); return; }
+  const today = new Date().toISOString().slice(0, 10);
+  const next = editing ? notices.map(n => n.id === editing ? { ...n, title, body } : n)
+    : [{ id: 'n' + Date.now().toString(36), date: today, title, body }, ...notices].slice(0, 50);
+  if (await saveNotices(next, editing ? '공지 수정' : '공지 추가')) resetEditor();
+}
+/* ---------- 릴리스 ---------- */
+function embedded(release) { const match = /<!-- ppobgi-release ([A-Za-z0-9+/=]+) -->/.exec(release.body ?? ''); return match ? fromB64(match[1]) : null; }
+const visibleNotes = release => (release.body ?? '').replace(/<!-- ppobgi-release [^>]*-->/, '').trim();
+async function loadReleases() {
+  const list = $('release-list'); list.replaceChildren(el('li', '불러오는 중…', 'muted'));
+  const releases = (await gh(repoPath() + '/releases?per_page=20')) ?? [];
+  const live = await readFile('release.json'); let liveVersion = '';
+  try { liveVersion = live ? JSON.parse(live.text).release.version : ''; } catch {}
+  list.replaceChildren();
+  if (!releases.length) list.append(el('li', '올라온 판이 없어요. 이 PC에서 먼저 publish-update를 실행해 주세요.', 'muted'));
+  for (const release of releases) {
+    const item = el('li'), head = el('div', '', 'row'), version = release.tag_name.replace(/^v/, '');
+    head.append(el('strong', release.name || release.tag_name));
+    head.append(el('span', release.draft ? '초안' : version === liveVersion ? '배포 중' : '예전 판', 'tag ' + (release.draft ? 'draft' : version === liveVersion ? 'live' : '')));
+    if (release.draft) { const deploy = el('button', '배포', 'primary'); deploy.onclick = () => void publish(release); head.append(deploy); }
+    const sizes = (release.assets ?? []).map(a => a.name + ' ' + (a.size / 1e6).toFixed(1) + 'MB').join(' · ');
+    item.append(head, el('p', visibleNotes(release)), el('span', sizes, 'muted')); list.append(item);
+  }
+}
+async function publish(release) {
+  const signed = embedded(release);
+  if (!signed) { say('release-status', '이 초안에는 서명된 정보가 없어요. publish-update로 다시 올려 주세요.', true); return; }
+  let parsed; try { parsed = JSON.parse(signed); } catch { say('release-status', '서명 정보가 깨져 있어요.', true); return; }
+  if (!confirm(parsed.release.version + ' 판을 배포할까요? 교실 노트북들이 다음에 켤 때 업데이트를 안내받아요.')) return;
+  say('release-status', '배포하는 중…');
+  try {
+    const current = await readFile('release.json');
+    await writeFile('release.json', JSON.stringify(parsed, null, 2) + '\n', current?.sha, '배포 ' + parsed.release.version);
+    await gh(repoPath() + '/releases/' + release.id, { method: 'PATCH', body: JSON.stringify({ draft: false }) });
+    if ($('also-notice').checked) {
+      await loadNotices();
+      await saveNotices([{ id: 'v' + parsed.release.version.replace(/\./g, '-'), date: new Date().toISOString().slice(0, 10),
+        title: '새 판 ' + parsed.release.version, body: parsed.release.notes }, ...notices.filter(n => n.id !== 'v' + parsed.release.version.replace(/\./g, '-'))].slice(0, 50), '업데이트 공지');
+    }
+    say('release-status', parsed.release.version + ' 배포 완료. 노트북에서 「업데이트 확인」을 누르거나 다시 켜면 받아요.');
+    await loadReleases();
+  } catch (error) { say('release-status', '배포 실패: ' + (error.message ?? error), true); }
+}
+$('signin').onclick = () => void signIn();
+$('token').addEventListener('keydown', event => { if (event.key === 'Enter') void signIn(); });
+$('signout').onclick = signOut;
+$('refresh').onclick = () => void Promise.all([loadReleases(), loadNotices()]);
+$('notice-save').onclick = () => void submitNotice();
+$('notice-cancel').onclick = resetEditor;
+try { const saved = JSON.parse(localStorage.getItem('ppobgi-admin') ?? 'null'); if (saved) { $('owner').value = saved.owner; $('repo').value = saved.repo; void signIn(saved); } } catch {}
+</script>
+</body>
+</html>
