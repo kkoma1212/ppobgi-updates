@@ -1,16 +1,16 @@
 {
   "release": {
     "format": 1,
-    "version": "1.2.1",
+    "version": "1.2.3",
     "shell": 1,
     "date": "2026-09-24",
-    "notes": "업데이트 시험판입니다. 기능 변화는 없어요.",
+    "notes": "업데이트 시험판(팝업 확인용)입니다. 기능 변화는 없어요.",
     "bundle": {
-      "name": "bundle-1.2.1.ppobgi",
-      "sha256": "69b7e0b40deb84b3b713508ff02e8c51599ab08763a8f7510533e0656ed3a2ae",
-      "size": 15658791
+      "name": "bundle-1.2.3.ppobgi",
+      "sha256": "572c17fd27887cdc507965aa2adc905772cc956602a5d8fc0fc7bb7cf2e1c874",
+      "size": 15660312
     },
     "full": null
   },
-  "signature": "3suJ5oq+Tqs9akA0CjhBVNX/zdJ1jHyTo5kGdqIzrYEFFmrlhgljKwnxrmbk08bIQy2WahLZNeJ1dShsthHzAQ=="
+  "signature": "icIT5HTz5Hs1+svhNP6L8jv8BsYhz0pJpeaoMsAfl1eWAc+8ZouW2DSiOX2p4mbw83q98omQxBzv3mwKgY8qAw=="
 }
