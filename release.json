@@ -1,20 +1,16 @@
 {
   "release": {
     "format": 1,
-    "version": "1.2.4",
-    "shell": 2,
+    "version": "1.2.3",
+    "shell": 1,
     "date": "2026-09-24",
-    "notes": "새 게임 「캡슐 뽑기」가 생겼어요(손잡이를 돌리면 캡슐 하나가 두근두근 열려요). 업데이트 받기가 멈추거나 창이 닫히지 않던 문제를 고쳤어요.",
+    "notes": "업데이트 시험판(팝업 확인용)입니다. 기능 변화는 없어요.",
     "bundle": {
-      "name": "bundle-1.2.4.ppobgi",
-      "sha256": "2b3ecc3a4bf284e4a56c61b3855119d430bfe4734af451755aa7a5f326cf3884",
-      "size": 15677430
+      "name": "bundle-1.2.3.ppobgi",
+      "sha256": "572c17fd27887cdc507965aa2adc905772cc956602a5d8fc0fc7bb7cf2e1c874",
+      "size": 15660312
     },
-    "full": {
-      "name": "ppobgi-1.2.4.exe",
-      "sha256": "2251861e718797ca091ff4d1c5daacf6e70c2cb5b3208849ffa85fa675589bba",
-      "size": 355427693
-    }
+    "full": null
   },
-  "signature": "L506Zi+hVp9Mx1svFJTRuWy98pnES2UZEUsMalefTORHjwrfGmxQgq3kkUqXrkJvHUpdBtMkADzAAa9pujCDAw=="
+  "signature": "icIT5HTz5Hs1+svhNP6L8jv8BsYhz0pJpeaoMsAfl1eWAc+8ZouW2DSiOX2p4mbw83q98omQxBzv3mwKgY8qAw=="
 }
