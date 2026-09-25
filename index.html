@@ -152,10 +152,15 @@ async function publish(release) {
   const signed = embedded(release);
   if (!signed) { say('release-status', '이 초안에는 서명된 정보가 없어요. publish-update로 다시 올려 주세요.', true); return; }
   let parsed; try { parsed = JSON.parse(signed); } catch { say('release-status', '서명 정보가 깨져 있어요.', true); return; }
+  // 1.2.6: 지금 배포 중인 판보다 같거나 옛 판이면 노트북들이 받지 않는다(앱은 옛 판을 거부). 되돌리기처럼 일부러일 수 있어 막지 않고 한 번 더 묻는다
+  let current = null, liveVersion = '';
+  try { current = await readFile('release.json'); liveVersion = current ? JSON.parse(current.text).release.version : ''; } catch {}
+  const newer = (a, b) => { const x = a.split('.').map(Number), y = b.split('.').map(Number); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) > (y[i] || 0); return false; };
+  if (liveVersion && !newer(parsed.release.version, liveVersion)
+    && !confirm('주의: 지금 배포 중인 판은 ' + liveVersion + '이에요. ' + parsed.release.version + '은 같거나 더 옛 판이라 노트북들은 받지 않아요.\n그래도 배포 정보를 ' + parsed.release.version + '(으)로 바꿀까요? (되돌리기가 목적일 때만)')) return;
   if (!confirm(parsed.release.version + ' 판을 배포할까요? 교실 노트북들이 다음에 켤 때 업데이트를 안내받아요.')) return;
   say('release-status', '배포하는 중…');
   try {
-    const current = await readFile('release.json');
     await writeFile('release.json', JSON.stringify(parsed, null, 2) + '\n', current?.sha, '배포 ' + parsed.release.version);
     await gh(repoPath() + '/releases/' + release.id, { method: 'PATCH', body: JSON.stringify({ draft: false }) });
     if ($('also-notice').checked) {
