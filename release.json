@@ -1,16 +1,20 @@
 {
   "release": {
     "format": 1,
-    "version": "1.2.3",
-    "shell": 1,
-    "date": "2026-09-24",
-    "notes": "업데이트 시험판(팝업 확인용)입니다. 기능 변화는 없어요.",
+    "version": "1.2.6",
+    "shell": 2,
+    "date": "2026-09-25",
+    "notes": "유튜브 타이머가 타이머와 함께 재생·멈춤돼요. 업데이트 받기가 실패하면 자동으로 다시 시도하고 이유를 알려 줘요. 캡슐 뽑기·수업 인원·타이머의 작은 오류를 고쳤어요. 바꾼 설정이 없으면 끌 때 저장 질문을 하지 않아요.",
     "bundle": {
-      "name": "bundle-1.2.3.ppobgi",
-      "sha256": "572c17fd27887cdc507965aa2adc905772cc956602a5d8fc0fc7bb7cf2e1c874",
-      "size": 15660312
+      "name": "bundle-1.2.6.ppobgi",
+      "sha256": "4469e8ab1b9bd254b1c7f7ef04a7a65291edf5e807b82a505da646b0a7fa6e3d",
+      "size": 15679111
     },
-    "full": null
+    "full": {
+      "name": "ppobgi-1.2.6.exe",
+      "sha256": "12dd3a57c92b355fc027cd3717bd25c31658707263663e44755c8bd351f88532",
+      "size": 355431711
+    }
   },
-  "signature": "icIT5HTz5Hs1+svhNP6L8jv8BsYhz0pJpeaoMsAfl1eWAc+8ZouW2DSiOX2p4mbw83q98omQxBzv3mwKgY8qAw=="
+  "signature": "SoEdIR/VEbTz8aqHvfEzKalzB0aGmYMkCpzwgDE+LE0umni1Yt6Zoz9j+NyKggh0M6HnlWWanX+1Ghp7LEeuBA=="
 }
