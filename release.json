@@ -1,20 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.2.9",
-    "shell": 4,
+    "version": "1.3.0",
+    "shell": 5,
     "date": "2026-09-26",
-    "notes": "번호가 이어지지 않는 반을 위해 반마다 빈 번호를 저장해요. 홈에서 반 이름표로 반을 바꾸고, 설정 › 우리 반에서 반과 빈 번호를 정해요.",
+    "notes": "반 등록부터 시작해요(처음 켤 때). 소리 단추로 소리를 바로 조절하고, 마우스 커서가 분필로 바뀌었어요(설정 › 소리·저장에서 모양·색 선택). 룰렛이 분필로 칠한 모습이 되고, 승부수에도 막판 연출이 생겼어요. 업데이트 창이 켜자마자 떠요. 이번에는 프로그램 파일 전체를 새로 받아요.",
     "bundle": {
-      "name": "bundle-1.2.9.ppobgi",
-      "sha256": "d5dbf7bf5a8a4feb691f8efc8365fbb696b43ad708f6e7d8e0e0620043f13578",
-      "size": 15692461
+      "name": "bundle-1.3.0.ppobgi",
+      "sha256": "b387bfa783a4c5eff7abf112381de545e291ad267d9ba3b957e84ee5c4df8b7a",
+      "size": 15716068
     },
     "full": {
-      "name": "ppobgi-1.2.9.exe",
-      "sha256": "f48cac63d5945445db693b8e82969648e0d6ffd8494fac5a8fff71b562b6e4b3",
-      "size": 355446078
+      "name": "ppobgi-1.3.0.exe",
+      "sha256": "b1f4040f482493436206c4770bece89a998d9e720a7615e51bdfc0abe788cb00",
+      "size": 355472138,
+      "gzip": {
+        "name": "ppobgi-1.3.0.exe.gz",
+        "sha256": "9d042b7f1c7f0aae1d8a045f2ad736481a9d39dd21a2f2e7d9e4a17749fa5ada",
+        "size": 153239290
+      }
     }
   },
-  "signature": "08Pb0sIZIpHytzLwGUb1rj4holNvdio2Uja4tx9S6ZYVijd3sDrpWnqnRZKwtID1S3/bULBxS/xhkd4F7TGhDQ=="
+  "signature": "7ZUXGco6INVZy+t9o6mkWASq7qTXR62ziA5iD4tdG9upYmb18i70khpYgzBCCgWECaBFFrN14RdBYHt7UKoYDA=="
 }
