@@ -1,20 +1,20 @@
 {
   "release": {
     "format": 1,
-    "version": "1.2.7",
+    "version": "1.2.8",
     "shell": 3,
-    "date": "2026-09-25",
-    "notes": "실행 파일을 통째로 바꾸는 업데이트예요. 1.2.6에서 고친 업데이트 받기 자동 재시도·실패 이유 안내, 설정 파일 안전 검사, 임시 파일 정리가 이제 적용돼요. 받는 데 몇 분 걸릴 수 있어요.",
+    "date": "2026-09-26",
+    "notes": "핀볼 또르르에서 공끼리 부딪히는 소리를 뺐어요. 결과 소리와 승부수 소리는 그대로예요.",
     "bundle": {
-      "name": "bundle-1.2.7.ppobgi",
-      "sha256": "4469e8ab1b9bd254b1c7f7ef04a7a65291edf5e807b82a505da646b0a7fa6e3d",
-      "size": 15679111
+      "name": "bundle-1.2.8.ppobgi",
+      "sha256": "7c91ed9ccb1243f0158e1bc8b656bb133a9bd457d72b0046700bb968b5dabf6d",
+      "size": 15679080
     },
     "full": {
-      "name": "ppobgi-1.2.7.exe",
-      "sha256": "2e1308489da3c1adfcf470297cf6390dcc7fb8b5f64a4fb102504447714798b6",
-      "size": 355431711
+      "name": "ppobgi-1.2.8.exe",
+      "sha256": "7ca2bff8bce2358790f7ad0e821ab20f83c0a9cc349846ccf056aa597d1bd814",
+      "size": 355431680
     }
   },
-  "signature": "R4rkNOdw6m/6dF/oDw4dSyoGoHFeWAm+a5zpV5spaSp4ForP6lL5aJo8HhSyoLEx2V9pmZ84LT4gQbMrbtLeDw=="
+  "signature": "g9RhzRhfwgcn9CDCw2DP6boapIZMGtTMsJX96umq1RlzDPhuEioYvkeAUNkBFpr+BRGl8+vNnIiJVT5OqQvABw=="
 }
