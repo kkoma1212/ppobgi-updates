@@ -1,20 +1,20 @@
 {
   "release": {
     "format": 1,
-    "version": "1.2.8",
-    "shell": 3,
+    "version": "1.2.9",
+    "shell": 4,
     "date": "2026-09-26",
-    "notes": "핀볼 또르르에서 공끼리 부딪히는 소리를 뺐어요. 결과 소리와 승부수 소리는 그대로예요.",
+    "notes": "번호가 이어지지 않는 반을 위해 반마다 빈 번호를 저장해요. 홈에서 반 이름표로 반을 바꾸고, 설정 › 우리 반에서 반과 빈 번호를 정해요.",
     "bundle": {
-      "name": "bundle-1.2.8.ppobgi",
-      "sha256": "7c91ed9ccb1243f0158e1bc8b656bb133a9bd457d72b0046700bb968b5dabf6d",
-      "size": 15679080
+      "name": "bundle-1.2.9.ppobgi",
+      "sha256": "d5dbf7bf5a8a4feb691f8efc8365fbb696b43ad708f6e7d8e0e0620043f13578",
+      "size": 15692461
     },
     "full": {
-      "name": "ppobgi-1.2.8.exe",
-      "sha256": "7ca2bff8bce2358790f7ad0e821ab20f83c0a9cc349846ccf056aa597d1bd814",
-      "size": 355431680
+      "name": "ppobgi-1.2.9.exe",
+      "sha256": "f48cac63d5945445db693b8e82969648e0d6ffd8494fac5a8fff71b562b6e4b3",
+      "size": 355446078
     }
   },
-  "signature": "g9RhzRhfwgcn9CDCw2DP6boapIZMGtTMsJX96umq1RlzDPhuEioYvkeAUNkBFpr+BRGl8+vNnIiJVT5OqQvABw=="
+  "signature": "08Pb0sIZIpHytzLwGUb1rj4holNvdio2Uja4tx9S6ZYVijd3sDrpWnqnRZKwtID1S3/bULBxS/xhkd4F7TGhDQ=="
 }
