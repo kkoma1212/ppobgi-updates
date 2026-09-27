@@ -1,16 +1,16 @@
 {
   "release": {
     "format": 1,
-    "version": "1.3.7",
+    "version": "1.3.8",
     "shell": 7,
     "date": "2026-09-27",
-    "notes": "켜 둔 동안에도 새 판을 몇 분마다 다시 확인해, 업데이트 알림이 늦지 않게 떠요.",
+    "notes": "룰렛 칸과 또르르 출발 자리가 섞여 있어요. 「섞기」를 누르면 학생들 앞에서 다시 섞을 수 있어요.",
     "bundle": {
-      "name": "bundle-1.3.7.ppobgi",
-      "sha256": "c4303eaef54151be1fcadad188c142ef7d88beea12003e3804323e4d5233565d",
-      "size": 17792679
+      "name": "bundle-1.3.8.ppobgi",
+      "sha256": "1e420a9c676d2b3d496742eea579b4e4d57d2830d3d436c8198ab0d02b9f04d2",
+      "size": 17794160
     },
     "full": null
   },
-  "signature": "9m4fE2gI0kPBadlHfATROJdSJY25iPk1F4xFou8hzEeR3R1sG6LqVUVhn+EJfiIxtVx+yEoXEpg1RNbilqFEAA=="
+  "signature": "JXf5x+9HBqx0ExJZY615dwJ8ogRuNrdTO3LUQDkA5WOR0HVvNtpEGyfXE3UFWziGeGnhWQ8eAEr/dDjuFe2OAg=="
 }
