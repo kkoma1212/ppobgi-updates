@@ -1,16 +1,16 @@
 {
   "release": {
     "format": 1,
-    "version": "1.3.8",
+    "version": "1.3.9",
     "shell": 7,
     "date": "2026-09-27",
-    "notes": "룰렛 칸과 또르르 출발 자리가 섞여 있어요. 「섞기」를 누르면 학생들 앞에서 다시 섞을 수 있어요.",
+    "notes": "또르르 출발 전 화면에서 섞인 번호가 모두 보여요. 태블릿에서 미니맵을 누르고 있으면 크게 들여다볼 수 있어요.",
     "bundle": {
-      "name": "bundle-1.3.8.ppobgi",
-      "sha256": "1e420a9c676d2b3d496742eea579b4e4d57d2830d3d436c8198ab0d02b9f04d2",
-      "size": 17794160
+      "name": "bundle-1.3.9.ppobgi",
+      "sha256": "7c8b50d8df37948d18d28f46b9c47e9b83e05755c65f6de1375591194777fc4d",
+      "size": 17794616
     },
     "full": null
   },
-  "signature": "JXf5x+9HBqx0ExJZY615dwJ8ogRuNrdTO3LUQDkA5WOR0HVvNtpEGyfXE3UFWziGeGnhWQ8eAEr/dDjuFe2OAg=="
+  "signature": "fdA8HDkRXj+iARGc89of4d00PmpUdCkHmJR5YSWmmqadl5Ot62DAgfi/peHQBFpBe2GUcUHXmMfzVC7jsRb/Ag=="
 }
