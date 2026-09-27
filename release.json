@@ -1,16 +1,16 @@
 {
   "release": {
     "format": 1,
-    "version": "1.3.6",
+    "version": "1.3.7",
     "shell": 7,
     "date": "2026-09-27",
-    "notes": "룰렛 원판 새 단장: 매끈한 파스텔 칸과 분필 점선 테로 더 깔끔하게 보여요(승부수 원판도 함께).",
+    "notes": "켜 둔 동안에도 새 판을 몇 분마다 다시 확인해, 업데이트 알림이 늦지 않게 떠요.",
     "bundle": {
-      "name": "bundle-1.3.6.ppobgi",
-      "sha256": "816a3424ba18c752960821705d4321c3cfe5b8308419c77165439fa894968b83",
-      "size": 17792544
+      "name": "bundle-1.3.7.ppobgi",
+      "sha256": "c4303eaef54151be1fcadad188c142ef7d88beea12003e3804323e4d5233565d",
+      "size": 17792679
     },
     "full": null
   },
-  "signature": "ztdCYYjsTwdTVKfcYkL456g7rKhNeRw4WPEA2FNcyk/11Pfn3BRBACxAx0K8bVZFy/o1GiPqlAi8qp/wZN8aAA=="
+  "signature": "9m4fE2gI0kPBadlHfATROJdSJY25iPk1F4xFou8hzEeR3R1sG6LqVUVhn+EJfiIxtVx+yEoXEpg1RNbilqFEAA=="
 }
