@@ -1,25 +1,16 @@
 {
   "release": {
     "format": 1,
-    "version": "1.3.2",
+    "version": "1.3.3",
     "shell": 6,
-    "date": "2026-09-26",
-    "notes": "룰렛 원판을 분필로 칸마다 칠한 모습으로 다듬었어요. 화면만 바뀌는 작은 업데이트예요.",
+    "date": "2026-09-27",
+    "notes": "화면 새 단장: 더 또렷한 글꼴, 새 로고(분필 룰렛), 포스트잇 메뉴, 새 홈 화면. 이긴 효과음 소리를 줄이고, 태블릿에서 화면이 맞게 보여요.",
     "bundle": {
-      "name": "bundle-1.3.2.ppobgi",
-      "sha256": "2e3663e3588ad6463c7b0e96ac6088e7eb57aa6c383439ffa88cc58d00037ca7",
-      "size": 15716272
+      "name": "bundle-1.3.3.ppobgi",
+      "sha256": "52af0b0d4eb0d047156ef05c9535b11ea7e567f01bc806cba8946d4890e96d58",
+      "size": 17790782
     },
-    "full": {
-      "name": "ppobgi-1.3.2.exe",
-      "sha256": "9d27c21547ad6ee964af18cedc69bd22e4a079ed939c8867bb3e5e76c2e667bf",
-      "size": 355472506,
-      "gzip": {
-        "name": "ppobgi-1.3.2.exe.gz",
-        "sha256": "3a234150a4e35eaf1d2721ef8087eba396bf808ec9f0b045c5b3239182d1308d",
-        "size": 153239293
-      }
-    }
+    "full": null
   },
-  "signature": "H4jwvWFAA23Xv+sOrcR+dMexUoPDzcIZwSMLgBPkcvCtdHi6XkQ1z6y2GMAD1tdJK/F7QeH5Zm4zQeHyUDw/Aw=="
+  "signature": "N1Nh2vLDIztD7hXuyD7KWczJknG21aqXlSF7aJP3aetiIadsVKaFMPbM3oTFv9jwUvSGkK4hFdWPv1Sz9hZoAw=="
 }
