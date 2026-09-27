@@ -1,25 +1,16 @@
 {
   "release": {
     "format": 1,
-    "version": "1.3.5",
+    "version": "1.3.6",
     "shell": 7,
     "date": "2026-09-27",
-    "notes": "노트북에서도 메뉴가 왼쪽에 그대로 보여요(화면을 알맞게 줄여 보여 줌). 새 프로그램 아이콘(분필 룰렛). 룰렛 화면에 칠판 글씨로 뽑기 대상과 확률 표시.",
+    "notes": "룰렛 원판 새 단장: 매끈한 파스텔 칸과 분필 점선 테로 더 깔끔하게 보여요(승부수 원판도 함께).",
     "bundle": {
-      "name": "bundle-1.3.5.ppobgi",
-      "sha256": "4014c1bfb049c3b6fab204951779f99505577144a7e5bd460dbbfa68998e37d1",
-      "size": 17793832
+      "name": "bundle-1.3.6.ppobgi",
+      "sha256": "816a3424ba18c752960821705d4321c3cfe5b8308419c77165439fa894968b83",
+      "size": 17792544
     },
-    "full": {
-      "name": "ppobgi-1.3.5.exe",
-      "sha256": "1f4c23d78f85b115cb34111bcc0ce84c395a3fb638c762e30ecb11274e4a6a69",
-      "size": 357551280,
-      "gzip": {
-        "name": "ppobgi-1.3.5.exe.gz",
-        "sha256": "8b1d2f6e6d42cb444ba3fda98f147df5d068938320dcf62e152189cdd6346195",
-        "size": 155293600
-      }
-    }
+    "full": null
   },
-  "signature": "ZNG7dFbTexhM6ClKdhNma5OA8OgUU40fhRNC5joRHcQ/USLeHpdz8hZ2Z62IRTffNXXeqQcaNBjdWMBNydUBBg=="
+  "signature": "ztdCYYjsTwdTVKfcYkL456g7rKhNeRw4WPEA2FNcyk/11Pfn3BRBACxAx0K8bVZFy/o1GiPqlAi8qp/wZN8aAA=="
 }
