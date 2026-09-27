@@ -1,16 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.3.4",
-    "shell": 6,
+    "version": "1.3.5",
+    "shell": 7,
     "date": "2026-09-27",
-    "notes": "뽑기 화면 새 단장: 룰렛·로또·캡슐·타이머·또르르 화면에 칠판 분필 글씨 안내, 홈과 같은 「뽑기 대상」 표시, 확률 동그라미.",
+    "notes": "노트북에서도 메뉴가 왼쪽에 그대로 보여요(화면을 알맞게 줄여 보여 줌). 새 프로그램 아이콘(분필 룰렛). 룰렛 화면에 칠판 글씨로 뽑기 대상과 확률 표시.",
     "bundle": {
-      "name": "bundle-1.3.4.ppobgi",
-      "sha256": "577ef95c9c5c1dfb277f9a5c730a1e6ffd3c86d6d267281a3cbed7d81b82e684",
-      "size": 17792974
+      "name": "bundle-1.3.5.ppobgi",
+      "sha256": "4014c1bfb049c3b6fab204951779f99505577144a7e5bd460dbbfa68998e37d1",
+      "size": 17793832
     },
-    "full": null
+    "full": {
+      "name": "ppobgi-1.3.5.exe",
+      "sha256": "1f4c23d78f85b115cb34111bcc0ce84c395a3fb638c762e30ecb11274e4a6a69",
+      "size": 357551280,
+      "gzip": {
+        "name": "ppobgi-1.3.5.exe.gz",
+        "sha256": "8b1d2f6e6d42cb444ba3fda98f147df5d068938320dcf62e152189cdd6346195",
+        "size": 155293600
+      }
+    }
   },
-  "signature": "eReCPKT7OiyZR9DAkUmaVIG+8lAtqnadpoODRas+D7HVouYlVp8L2pFP/HMbfkb/qeG3FtrxJryAh85EIJJ1BA=="
+  "signature": "ZNG7dFbTexhM6ClKdhNma5OA8OgUU40fhRNC5joRHcQ/USLeHpdz8hZ2Z62IRTffNXXeqQcaNBjdWMBNydUBBg=="
 }
