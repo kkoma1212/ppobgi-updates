@@ -1,25 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.4.0",
+    "version": "1.4.1",
     "shell": 8,
     "date": "2026-09-28",
-    "notes": "선택 사항인 사용 현황 동의 창(학교 이름·컴퓨터 모델명, 학생 정보는 보내지 않음), 또르르를 [출발!] 한 번으로 바로 시작, 새 판을 더 빨리 알려 줌, 옛 파일 정리 안내 개선.",
+    "notes": "또르르 [옵션] 단추를 크게 바꿨어요.",
     "bundle": {
-      "name": "bundle-1.4.0.ppobgi",
-      "sha256": "e2b239d41ceb8586c875c56340158a36a421860fc3b21ccc493400d7bbc072df",
-      "size": 17820505
+      "name": "bundle-1.4.1.ppobgi",
+      "sha256": "acfb4625ee5bf94995c5abf0414b00ce55fb4843de5baca6995eac7242d6f423",
+      "size": 17820541
     },
     "full": {
-      "name": "ppobgi-1.4.0.exe",
-      "sha256": "d24054acbd7a693ed9cb5ff02323cfcac3db4d2bb5e42e4611fa2ab0fe15b538",
-      "size": 357585940,
+      "name": "ppobgi-1.4.1.exe",
+      "sha256": "45e92744d2e6d65c617c3c1a8ab27ff225f8648bb030c664f9e2dfa3d90145d6",
+      "size": 357585976,
       "gzip": {
-        "name": "ppobgi-1.4.0.exe.gz",
-        "sha256": "764b5bb4860a92e06e1cadccb79467ee157edf872a3793643624bc83d1be099f",
-        "size": 155302300
+        "name": "ppobgi-1.4.1.exe.gz",
+        "sha256": "012ba1f819f141993f3b1e4a3f7c7ac11ca7be9020549a967dd04021a53764c0",
+        "size": 155302075
       }
     }
   },
-  "signature": "4F/ao7rXV2fhydnnvWmVu6UKBi5aRJH8c3EfxXLzAC5xFiT8CPoq71Z4IyfgXDeEnohbrYHfNG/SHck9z/l3CQ=="
+  "signature": "Kne5C4IYP4hejPy3se/ObVAcYsqoAa5lLEsBG8AG9uoijxZg0oKVbhY748+Y3VcyKv9iRC0QmSqh18MrD2ATAQ=="
 }
