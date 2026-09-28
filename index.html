@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 요청 7(2026-09-23): 뽑기 시간 관리자 웹. GitHub API만 부른다. 공지·릴리스 내용은 모두 글자(textContent)로만 그린다 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://api.github.com; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://api.github.com https://script.google.com https://script.googleusercontent.com; img-src data:; base-uri 'none'; form-action 'none'">
 <title>뽑기 시간 관리자</title>
 <style>
   :root { --board: #24433a; --chalk: #f4f1e8; --paper: #fdf6e3; --ink: #1f2a25; --wood: #7a4e2a; --accent: #e8b34a; --danger: #b3261e; }
@@ -28,6 +28,8 @@
   ul.items li p { margin: 6px 0; white-space: pre-wrap; }
   .tag { display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 14px; font-weight: 700; background: #e7eee9; margin-left: 6px; }
   .tag.draft { background: #fbe39a; } .tag.live { background: #b9e3b0; }
+  table.usage { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 8px; } table.usage th, table.usage td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e4dcc4; }
+  .counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 8px; } .counts > div { border: 2px solid #e4dcc4; border-radius: 8px; padding: 8px 10px; }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -48,6 +50,19 @@
     <label class="row" style="font-weight:400"><input type="checkbox" id="also-notice" checked style="width:auto"> 배포할 때 바뀐 점을 공지로도 올리기</label>
     <ul class="items" id="release-list"></ul>
     <p class="status" id="release-status" role="status"></p>
+  </section>
+  <!-- T-033(2026-09-28): 동의한 PC의 학교·기종·판. 구글 시트(Apps Script 웹 앱)를 열쇠로 읽는다 — 열쇠는 이 브라우저에만 저장 -->
+  <section id="usage" hidden>
+    <div class="row"><h2>사용 현황</h2><button id="usage-refresh">새로 고침</button></div>
+    <p class="muted">앱에서 동의한 선생님 PC만 보여요(설치 하나당 한 줄). 시트 주소와 열쇠는 처음 한 번만 넣으면 이 브라우저가 기억해요.</p>
+    <div id="usage-setup">
+      <label>시트 웹 앱 주소 <input id="usage-url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off"></label>
+      <label>관리자 열쇠 <input id="usage-key" type="password" autocomplete="off"></label>
+      <div class="row"><button class="primary" id="usage-connect">연결</button></div>
+    </div>
+    <p class="status" id="usage-status" role="status"></p>
+    <div class="counts" id="usage-counts"></div>
+    <table class="usage" id="usage-table" hidden><thead><tr><th>학교</th><th>기종</th><th>Windows</th><th>판</th><th>처음</th><th>마지막</th></tr></thead><tbody id="usage-rows"></tbody></table>
   </section>
   <section id="notices" hidden>
     <h2>공지사항</h2>
@@ -89,11 +104,11 @@ async function signIn(saved) {
     if (!info) throw new Error('저장소를 찾을 수 없어요');
     if (!info.permissions?.push) throw new Error('이 토큰으로는 저장소에 쓸 수 없어요');
     try { localStorage.setItem('ppobgi-admin', JSON.stringify(auth)); } catch {}
-    $('who').textContent = owner + '/' + repo; $('login').hidden = true; $('releases').hidden = false; $('notices').hidden = false;
-    await Promise.all([loadReleases(), loadNotices()]);
+    $('who').textContent = owner + '/' + repo; $('login').hidden = true; $('releases').hidden = false; $('notices').hidden = false; $('usage').hidden = false;
+    await Promise.all([loadReleases(), loadNotices(), loadUsage()]);
   } catch (error) { auth = null; say('login-status', String(error.message ?? error), true); }
 }
-function signOut() { try { localStorage.removeItem('ppobgi-admin'); } catch {} location.reload(); }
+function signOut() { try { localStorage.removeItem('ppobgi-admin'); localStorage.removeItem('ppobgi-usage'); } catch {} location.reload(); }
 /* ---------- 공지 ---------- */
 async function loadNotices() {
   const file = await readFile('notices.json');
@@ -172,6 +187,43 @@ async function publish(release) {
     await loadReleases();
   } catch (error) { say('release-status', '배포 실패: ' + (error.message ?? error), true); }
 }
+/* ---------- 사용 현황(T-033) ---------- */
+const USAGE_URL = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/;
+function usageConfig() { try { return JSON.parse(localStorage.getItem('ppobgi-usage') ?? 'null'); } catch { return null; } }
+const day = text => { const date = new Date(text); return isNaN(date) ? '' : date.toLocaleDateString('ko-KR'); };
+function countBy(rows, key) { const map = new Map(); for (const row of rows) map.set(row[key] || '(없음)', (map.get(row[key] || '(없음)') ?? 0) + 1); return [...map].sort((a, b) => b[1] - a[1]); }
+async function loadUsage() {
+  const config = usageConfig(); $('usage-setup').hidden = Boolean(config);
+  if (!config) { say('usage-status', '시트 주소와 열쇠를 넣고 「연결」을 눌러 주세요.'); return; }
+  say('usage-status', '불러오는 중…');
+  try {
+    // 2026-09-28 실측: 구글이 결과를 넘겨주는 두 번째 주소가 12번 중 3번 404를 줬다(규칙 없음) — 3번까지 다시 읽는다
+    let data = null;
+    for (let attempt = 0; attempt < 3 && !data; attempt++) {
+      try { const response = await fetch(config.url + '?key=' + encodeURIComponent(config.key), { credentials: 'omit', cache: 'no-store' }); if (response.ok) data = await response.json(); } catch {}
+    }
+    if (!data) throw new Error('구글 시트가 응답하지 않아요. 잠시 뒤 새로 고침을 눌러 주세요');
+    if (!data.ok) { $('usage-setup').hidden = false; throw new Error(data.error === 'key' ? '열쇠가 맞지 않아요' : '시트가 거절했어요'); }
+    const rows = data.rows.slice().sort((a, b) => String(b.lastSeen).localeCompare(String(a.lastSeen)));
+    const counts = $('usage-counts'); counts.replaceChildren();
+    for (const [title, key] of [['학교', 'school'], ['기종', 'model'], ['앱 판', 'app']]) {
+      const box = el('div'); box.append(el('strong', title + ' (' + rows.length + '대)'));
+      for (const [name, count] of countBy(rows, key).slice(0, 8)) box.append(el('div', name + ' — ' + count));
+      counts.append(box);
+    }
+    const body = $('usage-rows'); body.replaceChildren();
+    for (const row of rows) { const tr = el('tr'); for (const value of [row.school, row.model, row.os, row.app, day(row.firstSeen), day(row.lastSeen)]) tr.append(el('td', value)); body.append(tr); }
+    $('usage-table').hidden = rows.length === 0;
+    say('usage-status', rows.length ? '동의한 PC ' + rows.length + '대' : '아직 동의한 PC가 없어요.');
+  } catch (error) { say('usage-status', '불러오지 못했어요: ' + (error.message ?? error), true); }
+}
+$('usage-connect').onclick = () => {
+  const url = $('usage-url').value.trim(), key = $('usage-key').value.trim();
+  if (!USAGE_URL.test(url) || !key) { say('usage-status', '주소(…/exec)와 열쇠를 확인해 주세요.', true); return; }
+  try { localStorage.setItem('ppobgi-usage', JSON.stringify({ url, key })); } catch {}
+  $('usage-key').value = ''; void loadUsage();
+};
+$('usage-refresh').onclick = () => void loadUsage();
 $('signin').onclick = () => void signIn();
 $('token').addEventListener('keydown', event => { if (event.key === 'Enter') void signIn(); });
 $('signout').onclick = signOut;
