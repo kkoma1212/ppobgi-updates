@@ -154,13 +154,22 @@ async function loadReleases() {
   try { liveVersion = live ? JSON.parse(live.text).release.version : ''; } catch {}
   list.replaceChildren();
   if (!releases.length) list.append(el('li', '올라온 판이 없어요. 이 PC에서 먼저 publish-update를 실행해 주세요.', 'muted'));
+  // 2026-09-29 건윤님 「배포 목록이 계속 추가되어 스크롤해야 해」: 초안과 최근 3개만, 나머지는 「예전 판 더 보기」로 펼친다
+  const RECENT = 3; let shown = 0; const older = [];
   for (const release of releases) {
+    if (!release.draft && shown++ >= RECENT) { older.push(release); continue; }
     const item = el('li'), head = el('div', '', 'row'), version = release.tag_name.replace(/^v/, '');
     head.append(el('strong', release.name || release.tag_name));
     head.append(el('span', release.draft ? '초안' : version === liveVersion ? '배포 중' : '예전 판', 'tag ' + (release.draft ? 'draft' : version === liveVersion ? 'live' : '')));
     if (release.draft) { const deploy = el('button', '배포', 'primary'); deploy.onclick = () => void publish(release); head.append(deploy); }
     const sizes = (release.assets ?? []).map(a => a.name + ' ' + (a.size / 1e6).toFixed(1) + 'MB').join(' · ');
     item.append(head, el('p', visibleNotes(release)), el('span', sizes, 'muted')); list.append(item);
+  }
+  if (older.length) {
+    const more = el('li'), toggle = el('button', '예전 판 ' + older.length + '개 더 보기'), rest = el('ul', '', 'items'); rest.hidden = true;
+    for (const release of older) rest.append(el('li', (release.name || release.tag_name) + ' · ' + (release.published_at ?? '').slice(0, 10), 'muted'));
+    toggle.onclick = () => { rest.hidden = !rest.hidden; toggle.textContent = rest.hidden ? '예전 판 ' + older.length + '개 더 보기' : '예전 판 접기'; };
+    more.append(toggle, rest); list.append(more);
   }
 }
 async function publish(release) {
