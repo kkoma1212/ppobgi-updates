@@ -1,25 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.4.1",
-    "shell": 8,
+    "version": "1.4.2",
+    "shell": 9,
     "date": "2026-09-28",
-    "notes": "또르르 [옵션] 단추를 크게 바꿨어요.",
+    "notes": "승부수가 기본으로 룰렛에서만 나와요(로또·캡슐은 설정에서 켜기, 또르르는 없음). 재추첨·한 명 더·패스권으로 다시 뽑을 때는 승부수가 없어요. 재추첨 확률 5%, 2문장 발표 53%로 바꿨어요.",
     "bundle": {
-      "name": "bundle-1.4.1.ppobgi",
-      "sha256": "acfb4625ee5bf94995c5abf0414b00ce55fb4843de5baca6995eac7242d6f423",
-      "size": 17820541
+      "name": "bundle-1.4.2.ppobgi",
+      "sha256": "f7c48b7dae21c7b4d704fa2b025c678ecb0486bb873757a0fcfc2af2e85ea598",
+      "size": 17823137
     },
     "full": {
-      "name": "ppobgi-1.4.1.exe",
-      "sha256": "45e92744d2e6d65c617c3c1a8ab27ff225f8648bb030c664f9e2dfa3d90145d6",
-      "size": 357585976,
+      "name": "ppobgi-1.4.2.exe",
+      "sha256": "8f22610345cf60b8ca9abad2491f8f75911c99ff14afdbfaa9dbf5d0819e6290",
+      "size": 357589989,
       "gzip": {
-        "name": "ppobgi-1.4.1.exe.gz",
-        "sha256": "012ba1f819f141993f3b1e4a3f7c7ac11ca7be9020549a967dd04021a53764c0",
-        "size": 155302075
+        "name": "ppobgi-1.4.2.exe.gz",
+        "sha256": "d90100d3f9b00bd393901111fa018b4312853217334054fe402c8fb9f0d0f4c0",
+        "size": 155304360
       }
     }
   },
-  "signature": "Kne5C4IYP4hejPy3se/ObVAcYsqoAa5lLEsBG8AG9uoijxZg0oKVbhY748+Y3VcyKv9iRC0QmSqh18MrD2ATAQ=="
+  "signature": "uhA7RrFElc5zXNNl4hDMbsjU/7y8uCQ18bI25gpoOjhvCwRNi5DHgdP4wS+kvc8GvhAYJXm9p/ZP3D1ODt61AA=="
 }
