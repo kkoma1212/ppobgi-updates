@@ -1,25 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.4.2",
-    "shell": 9,
+    "version": "1.4.3",
+    "shell": 10,
     "date": "2026-09-28",
-    "notes": "승부수가 기본으로 룰렛에서만 나와요(로또·캡슐은 설정에서 켜기, 또르르는 없음). 재추첨·한 명 더·패스권으로 다시 뽑을 때는 승부수가 없어요. 재추첨 확률 5%, 2문장 발표 53%로 바꿨어요.",
+    "notes": "또르르 맵이 짧아지고 [잠시 멈춤]이 생겼어요. 승부수 결과 창을 알맞게 줄였어요. 분필 커서가 지나간 자리에 잔상이 1초 남아요(설정 › 소리·저장에서 끄기).",
     "bundle": {
-      "name": "bundle-1.4.2.ppobgi",
-      "sha256": "f7c48b7dae21c7b4d704fa2b025c678ecb0486bb873757a0fcfc2af2e85ea598",
-      "size": 17823137
+      "name": "bundle-1.4.3.ppobgi",
+      "sha256": "15093c6bd111b7eea7b25ddbc14592ab373378fead681a270a349aaa3e7d8818",
+      "size": 17825276
     },
     "full": {
-      "name": "ppobgi-1.4.2.exe",
-      "sha256": "8f22610345cf60b8ca9abad2491f8f75911c99ff14afdbfaa9dbf5d0819e6290",
-      "size": 357589989,
+      "name": "ppobgi-1.4.3.exe",
+      "sha256": "03b2c4ee7228c11fe6f07647442892ac4be779c72f91e35146dd4b66b58e2ecf",
+      "size": 357593475,
       "gzip": {
-        "name": "ppobgi-1.4.2.exe.gz",
-        "sha256": "d90100d3f9b00bd393901111fa018b4312853217334054fe402c8fb9f0d0f4c0",
-        "size": 155304360
+        "name": "ppobgi-1.4.3.exe.gz",
+        "sha256": "0f072834deb61e0736b01b58ca43698b2f3f688c993fe4da2f314c8391270997",
+        "size": 155308039
       }
     }
   },
-  "signature": "uhA7RrFElc5zXNNl4hDMbsjU/7y8uCQ18bI25gpoOjhvCwRNi5DHgdP4wS+kvc8GvhAYJXm9p/ZP3D1ODt61AA=="
+  "signature": "3nooDWmj4M3dyUumiHNepVIcSiIPMFMuFnhI64jyD3j/f84VKnTW0clTk/S9UCJePjg5XFGv3fQOSuxBtKfNAQ=="
 }
