@@ -1,25 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.4.3",
-    "shell": 10,
-    "date": "2026-09-28",
-    "notes": "또르르 맵이 짧아지고 [잠시 멈춤]이 생겼어요. 승부수 결과 창을 알맞게 줄였어요. 분필 커서가 지나간 자리에 잔상이 1초 남아요(설정 › 소리·저장에서 끄기).",
+    "version": "1.4.4",
+    "shell": 11,
+    "date": "2026-09-30",
+    "notes": "또르르의 네 맵을 새 자체 엔진으로 바꿨어요. 자 미끄럼틀·못밭과 풍차는 좌우 막대기를, 깔때기 다섯 고개·물레방아 길은 자동 왕복 자를 사용해요. 모든 맵에 양쪽 스프링을 적용하고 기존 등수·꼴찌·발표 기록을 유지했어요.",
     "bundle": {
-      "name": "bundle-1.4.3.ppobgi",
-      "sha256": "15093c6bd111b7eea7b25ddbc14592ab373378fead681a270a349aaa3e7d8818",
-      "size": 17825276
+      "name": "bundle-1.4.4.ppobgi",
+      "sha256": "0a6323dfe9c0432617f2dcd1d45beddd901938bcee6c2ac8d0316f31215bb596",
+      "size": 17382215
     },
     "full": {
-      "name": "ppobgi-1.4.3.exe",
-      "sha256": "03b2c4ee7228c11fe6f07647442892ac4be779c72f91e35146dd4b66b58e2ecf",
-      "size": 357593475,
+      "name": "ppobgi-1.4.4.exe",
+      "sha256": "debc01bcbab4ee94dcf4eec15b628f8a097c95431b1ef3dcde4f643516290183",
+      "size": 354362645,
       "gzip": {
-        "name": "ppobgi-1.4.3.exe.gz",
-        "sha256": "0f072834deb61e0736b01b58ca43698b2f3f688c993fe4da2f314c8391270997",
-        "size": 155308039
+        "name": "ppobgi-1.4.4.exe.gz",
+        "sha256": "252aad19647b2e0c47d94a0e2cde6b5ba7aeb86a2616ffb130514137fea95fcb",
+        "size": 154542780
       }
     }
   },
-  "signature": "3nooDWmj4M3dyUumiHNepVIcSiIPMFMuFnhI64jyD3j/f84VKnTW0clTk/S9UCJePjg5XFGv3fQOSuxBtKfNAQ=="
+  "signature": "MA5k6gFoJdLSpvrEDgS8BOfvg9+Z6SXNzDXDRuvCBDxHS2JHfCG0762eA07ye6JQ/HoTOHanvH6ZV8hKB/urCA=="
 }
