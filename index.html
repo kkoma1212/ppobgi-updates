@@ -38,10 +38,11 @@
 <main>
   <section id="login">
     <h2>로그인</h2>
-    <p class="muted">GitHub에서 만든 「세분화된 토큰(fine-grained token)」을 넣어 주세요. 이 저장소 하나에 <b>Contents: 읽기/쓰기</b> 권한만 주면 됩니다. 토큰은 이 브라우저에만 저장돼요 — 공용 PC에서는 다 쓴 뒤 로그아웃하세요.</p>
+    <p class="muted">GitHub에서 만든 「세분화된 토큰(fine-grained token)」을 넣어 주세요. 이 저장소 하나에 <b>Contents: 읽기/쓰기</b> 권한만 주면 됩니다. 토큰은 기본으로 <b>이 탭을 닫으면 잊어요</b>. 「이 PC에서 기억」을 켜면 이 브라우저에 남으니 공용 PC에서는 켜지 말고, 다 쓴 뒤 로그아웃하세요.</p>
     <label>GitHub 아이디 <input id="owner" autocomplete="username" placeholder="예: kkoma1212"></label>
     <label>업데이트 저장소 이름 <input id="repo" value="ppobgi-updates"></label>
     <label>토큰 <input id="token" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+    <label class="row" style="font-weight:400"><input type="checkbox" id="remember" style="width:auto"> 이 PC에서 기억(다음에 열 때 자동 로그인 — 내 PC에서만)</label>
     <div class="row"><button class="primary" id="signin">로그인</button><span class="status" id="login-status"></span></div>
   </section>
   <section id="releases" hidden>
@@ -79,6 +80,17 @@ const $ = id => document.getElementById(id);
 const API = 'https://api.github.com';
 let auth = null, notices = [], noticesSha = null, editing = null;
 function el(tag, text, className) { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (className) e.className = className; return e; }
+/*
+ * R25(2026-10-07 검수): 토큰·시트 열쇠는 기본으로 이 탭에만(sessionStorage — 탭을 닫으면 잊는다).
+ * 「이 PC에서 기억」을 켰을 때만 localStorage에 남긴다. 저장 실패는 그 탭에서만 쓰는 정도라 무시한다.
+ */
+const SECRETS = ['ppobgi-admin', 'ppobgi-usage'];
+function saveSecret(name, value) {
+  const keep = $('remember').checked;
+  try { (keep ? localStorage : sessionStorage).setItem(name, value); (keep ? sessionStorage : localStorage).removeItem(name); } catch {}
+}
+function loadSecret(name) { try { return sessionStorage.getItem(name) ?? localStorage.getItem(name); } catch { return null; } }
+function forgetSecrets() { for (const name of SECRETS) { try { localStorage.removeItem(name); sessionStorage.removeItem(name); } catch {} } }
 function say(id, text, bad = false) { $(id).textContent = text; $(id).classList.toggle('bad', bad); }
 // UTF-8 ↔ base64 (GitHub 파일 내용은 base64)
 const toB64 = text => { const bytes = new TextEncoder().encode(text); let s = ''; bytes.forEach(b => { s += String.fromCharCode(b); }); return btoa(s); };
@@ -103,12 +115,12 @@ async function signIn(saved) {
     const info = await gh(repoPath());
     if (!info) throw new Error('저장소를 찾을 수 없어요');
     if (!info.permissions?.push) throw new Error('이 토큰으로는 저장소에 쓸 수 없어요');
-    try { localStorage.setItem('ppobgi-admin', JSON.stringify(auth)); } catch {}
+    saveSecret('ppobgi-admin', JSON.stringify(auth));
     $('who').textContent = owner + '/' + repo; $('login').hidden = true; $('releases').hidden = false; $('notices').hidden = false; $('usage').hidden = false;
     await Promise.all([loadReleases(), loadNotices(), loadUsage()]);
   } catch (error) { auth = null; say('login-status', String(error.message ?? error), true); }
 }
-function signOut() { try { localStorage.removeItem('ppobgi-admin'); localStorage.removeItem('ppobgi-usage'); } catch {} location.reload(); }
+function signOut() { forgetSecrets(); location.reload(); }
 /* ---------- 공지 ---------- */
 async function loadNotices() {
   const file = await readFile('notices.json');
@@ -172,10 +184,58 @@ async function loadReleases() {
     more.append(toggle, rest); list.append(more);
   }
 }
+/*
+ * R26(2026-10-07 검수): 배포 전에 앱과 같은 공개 키·같은 규칙으로 서명·모양·첨부 파일을 확인한다(전에는 서명 글자가 있는지만 봤다).
+ * 공개 키는 src/main/update-config.ts와 같은 값이어야 한다 — tests/admin-page.test.ts가 둘을 대조한다.
+ */
+const PUBLIC_KEY = 'MCowBQYDK2VwAyEAue/KO4fbQVmC6qaTEEyTpUJ3muK+xULZ+QV2JtDbLMQ=';
+const bytesOf = b64 => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+/** 앱의 canonicalJson(update-verify.ts)과 같은 방식 — 키를 정렬해 서명한 글자열을 다시 만든다 */
+function canonicalJson(value) {
+  if (Array.isArray(value)) return '[' + value.map(canonicalJson).join(',') + ']';
+  if (value && typeof value === 'object') return '{' + Object.keys(value).sort().map(key => JSON.stringify(key) + ':' + canonicalJson(value[key])).join(',') + '}';
+  return JSON.stringify(value);
+}
+/** 문제가 있으면 선생님(관리자)에게 보일 문장, 없으면 null */
+async function checkDraft(release, parsed) {
+  const info = parsed?.release, signature = parsed?.signature;
+  if (!info || typeof info !== 'object' || typeof signature !== 'string' || !/^[A-Za-z0-9+/]{86}==$/.test(signature)) return '서명 정보 모양이 틀려요.';
+  let valid;
+  try {
+    const key = await crypto.subtle.importKey('spki', bytesOf(PUBLIC_KEY), { name: 'Ed25519' }, false, ['verify']);
+    valid = await crypto.subtle.verify({ name: 'Ed25519' }, key, bytesOf(signature), new TextEncoder().encode(canonicalJson(info)));
+  } catch { return '이 브라우저는 서명을 확인하지 못해요. 최신 크롬에서 열어 주세요.'; }
+  if (!valid) return '서명이 맞지 않아요 — 이 PC의 키로 서명한 판이 아니에요. 배포하지 않았어요.';
+  if (Object.keys(info).sort().join(',') !== 'bundle,date,format,full,notes,shell,version' || info.format !== 1
+    || !/^\d+\.\d+\.\d+$/.test(info.version) || !Number.isSafeInteger(info.shell) || info.shell < 1) return '서명은 맞지만 앱이 읽지 못하는 모양이에요.';
+  if (release.tag_name !== 'v' + info.version && release.name !== '뽑기 시간 ' + info.version) return '초안 이름·태그(' + (release.tag_name || release.name) + ')가 서명된 판 ' + info.version + '과 달라요.';
+  // 앱이 받을 파일이 초안에 크기까지 맞게 붙어 있어야 한다(release.json은 새 앱이 「최신」 주소로 먼저 읽는다)
+  const attached = new Map((release.assets ?? []).map(asset => [asset.name, asset.size]));
+  const needed = [info.bundle, info.full, info.full?.gzip].filter(Boolean);
+  if (!attached.has('release.json')) return '초안에 release.json 첨부가 없어요. publish-update로 다시 올려 주세요.';
+  for (const file of needed) if (attached.get(file.name) !== file.size) return '초안 첨부 ' + file.name + '이(가) 없거나 크기가 서명과 달라요.';
+  return null;
+}
+/** 저장소 release.json(1.3.x 앱이 보는 곳) 맞추기 — 판 공개 뒤에 한다. 실패하면 다시 누를 단추를 둔다 */
+async function syncRepoRelease(parsed) {
+  const status = $('release-status');
+  try {
+    const current = await readFile('release.json');
+    await writeFile('release.json', JSON.stringify(parsed, null, 2) + '\n', current?.sha, '배포 ' + parsed.release.version);
+    return true;
+  } catch (error) {
+    say('release-status', parsed.release.version + ' 판은 공개됐어요(새 앱은 받아요). 저장소 release.json 갱신만 실패해 1.3.x 이하 앱은 아직 못 봐요: ' + (error.message ?? error), true);
+    const retry = el('button', 'release.json 다시 맞추기'); retry.onclick = () => { retry.remove(); void syncRepoRelease(parsed).then(ok => { if (ok) say('release-status', parsed.release.version + ' 저장소 release.json까지 맞췄어요.'); }); };
+    status.append(' ', retry); return false;
+  }
+}
 async function publish(release) {
   const signed = embedded(release);
   if (!signed) { say('release-status', '이 초안에는 서명된 정보가 없어요. publish-update로 다시 올려 주세요.', true); return; }
   let parsed; try { parsed = JSON.parse(signed); } catch { say('release-status', '서명 정보가 깨져 있어요.', true); return; }
+  say('release-status', '서명 확인하는 중…');
+  const problem = await checkDraft(release, parsed);
+  if (problem) { say('release-status', problem, true); return; }
   // 1.2.6: 지금 배포 중인 판보다 같거나 옛 판이면 노트북들이 받지 않는다(앱은 옛 판을 거부). 되돌리기처럼 일부러일 수 있어 막지 않고 한 번 더 묻는다
   let current = null, liveVersion = '';
   try { current = await readFile('release.json'); liveVersion = current ? JSON.parse(current.text).release.version : ''; } catch {}
@@ -184,9 +244,12 @@ async function publish(release) {
     && !confirm('주의: 지금 배포 중인 판은 ' + liveVersion + '이에요. ' + parsed.release.version + '은 같거나 더 옛 판이라 노트북들은 받지 않아요.\n그래도 배포 정보를 ' + parsed.release.version + '(으)로 바꿀까요? (되돌리기가 목적일 때만)')) return;
   if (!confirm(parsed.release.version + ' 판을 배포할까요? 교실 노트북들이 다음에 켤 때 업데이트를 안내받아요.')) return;
   say('release-status', '배포하는 중…');
+  // R26: 판 공개(최신 지정)를 먼저 한다. 전에는 저장소 release.json을 먼저 바꿔, 공개가 실패하면 옛 앱들이 아직 비공개인 파일을 받으려다 실패했다
   try {
-    await writeFile('release.json', JSON.stringify(parsed, null, 2) + '\n', current?.sha, '배포 ' + parsed.release.version);
-    await gh(repoPath() + '/releases/' + release.id, { method: 'PATCH', body: JSON.stringify({ draft: false }) });
+    await gh(repoPath() + '/releases/' + release.id, { method: 'PATCH', body: JSON.stringify({ draft: false, prerelease: false, make_latest: 'true', tag_name: 'v' + parsed.release.version }) });
+  } catch (error) { say('release-status', '배포 실패 — 아무것도 바뀌지 않았어요: ' + (error.message ?? error), true); return; }
+  try {
+    if (!(await syncRepoRelease(parsed))) { await loadReleases(); return; }
     if ($('also-notice').checked) {
       await loadNotices();
       await saveNotices([{ id: 'v' + parsed.release.version.replace(/\./g, '-'), date: new Date().toISOString().slice(0, 10),
@@ -198,7 +261,7 @@ async function publish(release) {
 }
 /* ---------- 사용 현황(T-033) ---------- */
 const USAGE_URL = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/;
-function usageConfig() { try { return JSON.parse(localStorage.getItem('ppobgi-usage') ?? 'null'); } catch { return null; } }
+function usageConfig() { try { return JSON.parse(loadSecret('ppobgi-usage') ?? 'null'); } catch { return null; } }
 const day = text => { const date = new Date(text); return isNaN(date) ? '' : date.toLocaleDateString('ko-KR'); };
 function countBy(rows, key) { const map = new Map(); for (const row of rows) map.set(row[key] || '(없음)', (map.get(row[key] || '(없음)') ?? 0) + 1); return [...map].sort((a, b) => b[1] - a[1]); }
 async function loadUsage() {
@@ -229,7 +292,7 @@ async function loadUsage() {
 $('usage-connect').onclick = () => {
   const url = $('usage-url').value.trim(), key = $('usage-key').value.trim();
   if (!USAGE_URL.test(url) || !key) { say('usage-status', '주소(…/exec)와 열쇠를 확인해 주세요.', true); return; }
-  try { localStorage.setItem('ppobgi-usage', JSON.stringify({ url, key })); } catch {}
+  saveSecret('ppobgi-usage', JSON.stringify({ url, key }));
   $('usage-key').value = ''; void loadUsage();
 };
 $('usage-refresh').onclick = () => void loadUsage();
@@ -239,7 +302,8 @@ $('signout').onclick = signOut;
 $('refresh').onclick = () => void Promise.all([loadReleases(), loadNotices()]);
 $('notice-save').onclick = () => void submitNotice();
 $('notice-cancel').onclick = resetEditor;
-try { const saved = JSON.parse(localStorage.getItem('ppobgi-admin') ?? 'null'); if (saved) { $('owner').value = saved.owner; $('repo').value = saved.repo; void signIn(saved); } } catch {}
+try { $('remember').checked = localStorage.getItem('ppobgi-admin') !== null; } catch {}
+try { const saved = JSON.parse(loadSecret('ppobgi-admin') ?? 'null'); if (saved) { $('owner').value = saved.owner; $('repo').value = saved.repo; void signIn(saved); } } catch {}
 </script>
 </body>
 </html>
