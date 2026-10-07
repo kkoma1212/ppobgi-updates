@@ -1,25 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.4.4",
-    "shell": 11,
-    "date": "2026-09-30",
-    "notes": "또르르의 네 맵을 새 자체 엔진으로 바꿨어요. 자 미끄럼틀·못밭과 풍차는 좌우 막대기를, 깔때기 다섯 고개·물레방아 길은 자동 왕복 자를 사용해요. 모든 맵에 양쪽 스프링을 적용하고 기존 등수·꼴찌·발표 기록을 유지했어요.",
+    "version": "1.4.5",
+    "shell": 12,
+    "date": "2026-10-07",
+    "notes": "태블릿 웹 앱이 한 화면에 맞게 보여요 · 웹 앱 또르르 「준비하지 못했어요」 오류 수정 · 업데이트한 판이 켜지지 않으면 예전 판으로 자동으로 되돌려요 · 동의 취소·저장 안정성·작은 화면 표시 개선",
     "bundle": {
-      "name": "bundle-1.4.4.ppobgi",
-      "sha256": "0a6323dfe9c0432617f2dcd1d45beddd901938bcee6c2ac8d0316f31215bb596",
-      "size": 17382215
+      "name": "bundle-1.4.5.ppobgi",
+      "sha256": "7f08f47e87d4b5546b9c7093433b003bfb000d89f15f41e28ee0b816228cda7e",
+      "size": 17383728
     },
     "full": {
-      "name": "ppobgi-1.4.4.exe",
-      "sha256": "debc01bcbab4ee94dcf4eec15b628f8a097c95431b1ef3dcde4f643516290183",
-      "size": 354362645,
+      "name": "ppobgi-1.4.5.exe",
+      "sha256": "1a067fd555d99b43d81f38b1dc41b0e4b5d782c10ac71f10250c7764bf1f58ad",
+      "size": 354369073,
       "gzip": {
-        "name": "ppobgi-1.4.4.exe.gz",
-        "sha256": "252aad19647b2e0c47d94a0e2cde6b5ba7aeb86a2616ffb130514137fea95fcb",
-        "size": 154542780
+        "name": "ppobgi-1.4.5.exe.gz",
+        "sha256": "98b69403bfab30466a01936be9c7c9c74da9dd4be1e6d94780d5057e870507db",
+        "size": 154548038
       }
     }
   },
-  "signature": "MA5k6gFoJdLSpvrEDgS8BOfvg9+Z6SXNzDXDRuvCBDxHS2JHfCG0762eA07ye6JQ/HoTOHanvH6ZV8hKB/urCA=="
+  "signature": "75DrG2qvoG3iNMrYF4pSMM3P6RJDog06V+fzLZh5YCNb6cH5ekahxBdtvrSnVSUsM7J+miYkwDRc3KIMDC11AQ=="
 }
