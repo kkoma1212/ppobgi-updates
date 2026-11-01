@@ -1,16 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.5.1",
+    "version": "1.5.2",
     "shell": 13,
     "date": "2026-11-01",
-    "notes": "설정 「소리 켜기」 체크 고침 · 소리 창·더보기를 닫은 뒤 Space로 바로 뽑기 · 풍선·폭탄·또르르 더블클릭 · 타이머 영상 고르기 뒤 Space · 승부수 안내 문구 등 검수 고침",
+    "notes": "새 게임 풍선 터뜨리기·폭탄 돌리기 · 또르르 꼴찌 당첨 기본·그만하기·판마다 출발 자리 섞기 · 막판 연출 설정 · 설정 소리 켜기·더블클릭·Space 등 검수 고침 · 반 목록 보호·업데이트·타이머 안정성",
     "bundle": {
-      "name": "bundle-1.5.1.ppobgi",
+      "name": "bundle-1.5.2.ppobgi",
       "sha256": "e6c9647cee021f07c5a7818dbb6177055739f43eb3212b165a9d57b5502ce19a",
       "size": 17439203
     },
-    "full": null
+    "full": {
+      "name": "ppobgi-1.5.2.exe",
+      "sha256": "00dda8dca36685407ae1301d6729a4288f8c308e5631c013854c635698bafabf",
+      "size": 354431297,
+      "gzip": {
+        "name": "ppobgi-1.5.2.exe.gz",
+        "sha256": "007c2368926e79485056b6b07a58ccad78705dd044061b4f7b5fb2495170dbc4",
+        "size": 154562628
+      }
+    }
   },
-  "signature": "uy8NCKfv67PABhrWTcDxkEKj7FH+2niGAz0j9HhTdnVzITocSg3mpAWbBJGmtM+AMmuFSHlRClIZOlqlMFW+Cg=="
+  "signature": "GdBQJcwcsVNEE3a7rkifhmAJMq8BrWXL66DhFw8BArIpFDScWWCv1xBu4R90CkQ62a4q2SW7MCVMXZJSspkACg=="
 }
