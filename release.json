@@ -1,25 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.4.5",
-    "shell": 12,
-    "date": "2026-10-07",
-    "notes": "태블릿 웹 앱이 한 화면에 맞게 보여요 · 웹 앱 또르르 「준비하지 못했어요」 오류 수정 · 업데이트한 판이 켜지지 않으면 예전 판으로 자동으로 되돌려요 · 동의 취소·저장 안정성·작은 화면 표시 개선",
+    "version": "1.5.0",
+    "shell": 13,
+    "date": "2026-11-01",
+    "notes": "새 게임 풍선 터뜨리기·폭탄 돌리기 · 또르르는 꼴찌 당첨이 기본, 「그만하기」, 판마다 출발 자리 섞기 · 룰렛·승부수 막판 연출 켜기/끄기와 확률 설정 · 반 목록 보호·업데이트·타이머 등 안정성 고침",
     "bundle": {
-      "name": "bundle-1.4.5.ppobgi",
-      "sha256": "7f08f47e87d4b5546b9c7093433b003bfb000d89f15f41e28ee0b816228cda7e",
-      "size": 17383728
+      "name": "bundle-1.5.0.ppobgi",
+      "sha256": "81193c0b9c0c05ca4f0577bb7322cd68ac452f5bff9656e444868bad5fc5563f",
+      "size": 17438115
     },
     "full": {
-      "name": "ppobgi-1.4.5.exe",
-      "sha256": "1a067fd555d99b43d81f38b1dc41b0e4b5d782c10ac71f10250c7764bf1f58ad",
-      "size": 354369073,
+      "name": "ppobgi-1.5.0.exe",
+      "sha256": "1799874e2e77ae19c074e7c07d004315de4a3c66cab2588c9964a128f1606e42",
+      "size": 354430209,
       "gzip": {
-        "name": "ppobgi-1.4.5.exe.gz",
-        "sha256": "98b69403bfab30466a01936be9c7c9c74da9dd4be1e6d94780d5057e870507db",
-        "size": 154548038
+        "name": "ppobgi-1.5.0.exe.gz",
+        "sha256": "49c3d516aba7dc24f85b626f42e5c0ab4b4d3de419a111cf71ab43d932c42d91",
+        "size": 154562666
       }
     }
   },
-  "signature": "75DrG2qvoG3iNMrYF4pSMM3P6RJDog06V+fzLZh5YCNb6cH5ekahxBdtvrSnVSUsM7J+miYkwDRc3KIMDC11AQ=="
+  "signature": "OYjQBM8hzAAoOyWExZrNlJmDNftZHd9J9JLgFwYaeKT/ncbOiLz2obxBnG3zmun9wkYWtDjOfT/Pzjqup1qWAA=="
 }
