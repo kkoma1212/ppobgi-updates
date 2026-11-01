@@ -1,25 +1,16 @@
 {
   "release": {
     "format": 1,
-    "version": "1.5.0",
+    "version": "1.5.1",
     "shell": 13,
     "date": "2026-11-01",
-    "notes": "새 게임 풍선 터뜨리기·폭탄 돌리기 · 또르르는 꼴찌 당첨이 기본, 「그만하기」, 판마다 출발 자리 섞기 · 룰렛·승부수 막판 연출 켜기/끄기와 확률 설정 · 반 목록 보호·업데이트·타이머 등 안정성 고침",
+    "notes": "설정 「소리 켜기」 체크 고침 · 소리 창·더보기를 닫은 뒤 Space로 바로 뽑기 · 풍선·폭탄·또르르 더블클릭 · 타이머 영상 고르기 뒤 Space · 승부수 안내 문구 등 검수 고침",
     "bundle": {
-      "name": "bundle-1.5.0.ppobgi",
-      "sha256": "81193c0b9c0c05ca4f0577bb7322cd68ac452f5bff9656e444868bad5fc5563f",
-      "size": 17438115
+      "name": "bundle-1.5.1.ppobgi",
+      "sha256": "e6c9647cee021f07c5a7818dbb6177055739f43eb3212b165a9d57b5502ce19a",
+      "size": 17439203
     },
-    "full": {
-      "name": "ppobgi-1.5.0.exe",
-      "sha256": "1799874e2e77ae19c074e7c07d004315de4a3c66cab2588c9964a128f1606e42",
-      "size": 354430209,
-      "gzip": {
-        "name": "ppobgi-1.5.0.exe.gz",
-        "sha256": "49c3d516aba7dc24f85b626f42e5c0ab4b4d3de419a111cf71ab43d932c42d91",
-        "size": 154562666
-      }
-    }
+    "full": null
   },
-  "signature": "OYjQBM8hzAAoOyWExZrNlJmDNftZHd9J9JLgFwYaeKT/ncbOiLz2obxBnG3zmun9wkYWtDjOfT/Pzjqup1qWAA=="
+  "signature": "uy8NCKfv67PABhrWTcDxkEKj7FH+2niGAz0j9HhTdnVzITocSg3mpAWbBJGmtM+AMmuFSHlRClIZOlqlMFW+Cg=="
 }
