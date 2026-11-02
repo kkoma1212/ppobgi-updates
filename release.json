@@ -1,25 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.5.2",
+    "version": "1.5.3",
     "shell": 13,
-    "date": "2026-11-01",
-    "notes": "새 게임 풍선 터뜨리기·폭탄 돌리기 · 또르르 꼴찌 당첨 기본·그만하기·판마다 출발 자리 섞기 · 막판 연출 설정 · 설정 소리 켜기·더블클릭·Space 등 검수 고침 · 반 목록 보호·업데이트·타이머 안정성",
+    "date": "2026-11-02",
+    "notes": "폭탄 돌리기 막판 핑퐁·남은 초 표시 · 받는 용량 줄임(글꼴 압축) · 공지 보기 단추 색 · 새 게임 풍선 터뜨리기·폭탄 돌리기 · 또르르 꼴찌 당첨 기본·그만하기·판마다 출발 자리 섞기 · 막판 연출 설정 · 반 목록 보호·업데이트·타이머 안정성",
     "bundle": {
-      "name": "bundle-1.5.2.ppobgi",
-      "sha256": "e6c9647cee021f07c5a7818dbb6177055739f43eb3212b165a9d57b5502ce19a",
-      "size": 17439203
+      "name": "bundle-1.5.3.ppobgi",
+      "sha256": "a4fdcae9658e5076ed5ed55b75180d5e2344d8af0f06c32b0035b6ae968bc653",
+      "size": 3570827
     },
     "full": {
-      "name": "ppobgi-1.5.2.exe",
-      "sha256": "00dda8dca36685407ae1301d6729a4288f8c308e5631c013854c635698bafabf",
-      "size": 354431297,
+      "name": "ppobgi-1.5.3.exe",
+      "sha256": "a79023e2c7f3e2a7f3990e1edca65e96fb0facb3f83e66b682773ce50b5dfe7a",
+      "size": 340562423,
       "gzip": {
-        "name": "ppobgi-1.5.2.exe.gz",
-        "sha256": "007c2368926e79485056b6b07a58ccad78705dd044061b4f7b5fb2495170dbc4",
-        "size": 154562628
+        "name": "ppobgi-1.5.3.exe.gz",
+        "sha256": "dc78268976f20fdddfaede04100170ae1f7d85b9cead7e5c0df4bdfd388f6b42",
+        "size": 151959595
       }
     }
   },
-  "signature": "GdBQJcwcsVNEE3a7rkifhmAJMq8BrWXL66DhFw8BArIpFDScWWCv1xBu4R90CkQ62a4q2SW7MCVMXZJSspkACg=="
+  "signature": "GR3vzK6x4s4dBCgD32+FNXe14flyAHToHSb9/5cmx9fEjeCDpo8ZgItawY4xT7MhYBbHcwO/2RiqJTboThB7Ag=="
 }
