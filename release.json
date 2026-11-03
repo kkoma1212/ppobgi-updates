@@ -1,25 +1,25 @@
 {
   "release": {
     "format": 1,
-    "version": "1.5.3",
+    "version": "1.5.4",
     "shell": 13,
-    "date": "2026-11-02",
-    "notes": "폭탄 돌리기 막판 핑퐁·남은 초 표시 · 받는 용량 줄임(글꼴 압축) · 공지 보기 단추 색 · 새 게임 풍선 터뜨리기·폭탄 돌리기 · 또르르 꼴찌 당첨 기본·그만하기·판마다 출발 자리 섞기 · 막판 연출 설정 · 반 목록 보호·업데이트·타이머 안정성",
+    "date": "2026-11-03",
+    "notes": "추첨 중 화면 오류가 나도 멈추지 않고 안내 뒤 홈으로 · 취소 안내 문구 바로잡기 · 웹 앱 아이패드 홈 화면 안내 · 폭탄 돌리기 막판 핑퐁·남은 초 표시 · 받는 용량 줄임(글꼴 압축) · 새 게임 풍선 터뜨리기·폭탄 돌리기 · 또르르 꼴찌 당첨 기본·그만하기·판마다 출발 자리 섞기 · 막판 연출 설정 · 반 목록 보호·업데이트·타이머 안정성",
     "bundle": {
-      "name": "bundle-1.5.3.ppobgi",
-      "sha256": "a4fdcae9658e5076ed5ed55b75180d5e2344d8af0f06c32b0035b6ae968bc653",
-      "size": 3570827
+      "name": "bundle-1.5.4.ppobgi",
+      "sha256": "926a1d64f2d0c596848343c35f2bac67fc6cdc0de05503d27782ffe29726f875",
+      "size": 3571364
     },
     "full": {
-      "name": "ppobgi-1.5.3.exe",
-      "sha256": "a79023e2c7f3e2a7f3990e1edca65e96fb0facb3f83e66b682773ce50b5dfe7a",
-      "size": 340562423,
+      "name": "ppobgi-1.5.4.exe",
+      "sha256": "098023183a1eb2de144a9306bfcd553ef6f2f4df533bd0345358bf720a3fa9fa",
+      "size": 340562960,
       "gzip": {
-        "name": "ppobgi-1.5.3.exe.gz",
-        "sha256": "dc78268976f20fdddfaede04100170ae1f7d85b9cead7e5c0df4bdfd388f6b42",
-        "size": 151959595
+        "name": "ppobgi-1.5.4.exe.gz",
+        "sha256": "38547ba2082bf12d8ef9d57260ef22772b829061113f18766af671ff1c7ade98",
+        "size": 151959795
       }
     }
   },
-  "signature": "GR3vzK6x4s4dBCgD32+FNXe14flyAHToHSb9/5cmx9fEjeCDpo8ZgItawY4xT7MhYBbHcwO/2RiqJTboThB7Ag=="
+  "signature": "CDmJD0+oMbHHCaegNKaX1Zu1olKdkIRgK2AQUWA5hd3ldIzN2HPziIfl9miT/+z1c3EP7VXxJuFzUq5F1Y3aCg=="
 }
